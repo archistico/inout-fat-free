@@ -9,3 +9,9 @@
         <li>{{ @item.madre }}: {{ @item.descrizione }} ({{ @item.id }}) </li>
     </repeat>
 </ul>
+
+<ul>
+    <repeat group="{{ @categoria3 }}" value="{{ @item }}">
+        <li>{{ @item.cat1 }}/{{ @item.cat2 }}: {{ @item.descrizione }} ({{ @item.id }}) </li>
+    </repeat>
+</ul>

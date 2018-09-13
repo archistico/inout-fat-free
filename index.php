@@ -48,11 +48,14 @@ $f3->route('GET /data',
         $db->commit();
         */
 
-        $f3->set('categoria1',$db->exec('SELECT * FROM categoria1'));
+        $f3->set('categoria1',$db->exec('SELECT * FROM categoria1 ORDER BY categoria1.descrizione ASC'));
 
-        $sql = 'SELECT categoria2.id, categoria2.descrizione, categoria1.descrizione AS madre FROM categoria2 JOIN categoria1 ON categoria2.madre = categoria1.id';
+        $sql = 'SELECT categoria2.id, categoria2.descrizione, categoria1.descrizione AS madre FROM categoria2 JOIN categoria1 ON categoria2.madre = categoria1.id ORDER BY categoria1.descrizione ASC, categoria2.descrizione ASC';
         $f3->set('categoria2',$db->exec($sql));
         
+        $sql = 'SELECT categoria3.id, categoria3.descrizione, categoria1.descrizione AS cat1, categoria2.descrizione AS cat2 FROM categoria3 JOIN categoria1 ON categoria2.madre = categoria1.id JOIN categoria2 ON categoria3.madre = categoria2.id ORDER BY categoria1.descrizione ASC, categoria2.descrizione ASC, categoria3.descrizione ASC';
+        $f3->set('categoria3',$db->exec($sql));
+
         $f3->set('titolo','Data');
         $f3->set('contenuto','data.htm');
         
