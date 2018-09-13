@@ -36,22 +36,28 @@ $f3->route('GET @report: /report',
     }
 );
 
-/*
+
 $f3->route('GET /data',
     function($f3) {
         
         $db=new DB\SQL('sqlite:database.sqlite');
 
-        $f3->set('name','Emilie');
-        $f3->set('content','db.htm');    
-        
+        /*
         $db->begin();
         $db->exec('INSERT into users values(null, "nuova")');
         $db->commit();
+        */
+
+        $f3->set('categoria1',$db->exec('SELECT * FROM categoria1'));
+
+        $sql = 'SELECT categoria2.id, categoria2.descrizione, categoria1.descrizione AS madre FROM categoria2 JOIN categoria1 ON categoria2.madre = categoria1.id';
+        $f3->set('categoria2',$db->exec($sql));
         
-        $f3->set('result',$db->exec('SELECT * FROM users'));
+        $f3->set('titolo','Data');
+        $f3->set('contenuto','data.htm');
+        
         echo Template::instance()->render('templates/base.htm');
     }
 );
-*/
+
 $f3->run();

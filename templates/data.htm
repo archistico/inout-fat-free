@@ -1,0 +1,11 @@
+<ul>
+    <repeat group="{{ @categoria1 }}" value="{{ @item }}">
+        <li>{{ @item.descrizione }} ({{ @item.id }})</li>
+    </repeat>
+</ul>
+
+<ul>
+    <repeat group="{{ @categoria2 }}" value="{{ @item }}">
+        <li>{{ @item.madre }}: {{ @item.descrizione }} ({{ @item.id }}) </li>
+    </repeat>
+</ul>
