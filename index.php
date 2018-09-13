@@ -2,16 +2,34 @@
 require 'vendor/autoload.php';
 $f3 = \Base::instance();
 
-$f3->route('GET /',
+$f3->route('GET @homepage: /',
     function($f3) {
         $f3->set('titolo','Homepage');
+        $f3->set('contenuto','homepage.htm');
         echo \Template::instance()->render('templates/base.htm');
     }
 );
 
-$f3->route('GET /nuovo',
+$f3->route('GET @nuovo: /nuovo',
     function($f3) {
         $f3->set('titolo','Nuovo');
+        $f3->set('contenuto','nuovo.htm');
+        echo \Template::instance()->render('templates/base.htm');
+    }
+);
+
+$f3->route('GET @lista: /lista',
+    function($f3) {
+        $f3->set('titolo','Lista');
+        $f3->set('contenuto','lista.htm');
+        echo \Template::instance()->render('templates/base.htm');
+    }
+);
+
+$f3->route('GET @report: /report',
+    function($f3) {
+        $f3->set('titolo','Report');
+        $f3->set('contenuto','report.htm');
         echo \Template::instance()->render('templates/base.htm');
     }
 );

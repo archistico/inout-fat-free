@@ -2,27 +2,27 @@
     <div class="sidebar-sticky">
       <ul class="nav flex-column">
         <li class="nav-item">
-          <a class="nav-link <check if="{{ @titolo=='Homepage' }}"><true>active</true></check> " href="#">
+          <a class="nav-link <check if="{{ @titolo=='Homepage' }}"><true>active</true></check> " href="{{ 'homepage' | alias }}">
             <span data-feather="home"></span>
             Homepage 
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link <check if="{{ @titolo=='Nuovo' }}"><true>active</true></check>" href="#">
+          <a class="nav-link <check if="{{ @titolo=='Nuovo' }}"><true>active</true></check>" href="{{ 'nuovo' | alias }}">
             <span data-feather="file"></span>
             Nuovo 
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link <check if="{{ @titolo=='Lista' }}"><true>active</true></check>" href="{{ 'lista' | alias }}">
             <span data-feather="layers"></span>
             Lista
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">
+          <a class="nav-link <check if="{{ @titolo=='Report' }}"><true>active</true></check>" href="{{ 'report' | alias }}">
             <span data-feather="bar-chart-2"></span>
-            Statistiche
+            Report
           </a>
         </li>
         
