@@ -26,6 +26,8 @@ $f3->route('GET @lista: /lista',
     }
 );
 
+$f3->route('GET @movimento: /movimento/@id', '\App\Movimento->Mostra');
+
 $f3->route('GET @report: /report',
     function($f3) {
         $f3->set('titolo','Report');
@@ -34,20 +36,7 @@ $f3->route('GET @report: /report',
     }
 );
 
-$f3->route('GET /test',
-    function($f3) {
-        echo \Template::instance()->render('templates/test.htm');
-    }
-);
-
 /*
-$f3->route('GET /template',
-    function($f3) {
-        $f3->set('content','template.htm');
-        echo \Template::instance()->render('templates/base.htm');
-    }
-);
-
 $f3->route('GET /data',
     function($f3) {
         
