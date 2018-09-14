@@ -12,8 +12,46 @@ $f3->route('GET @homepage: /',
 
 $f3->route('GET @nuovo: /nuovo',
     function($f3) {
+        $db=new DB\SQL('sqlite:database.sqlite');
+        $f3->set('categoria1',$db->exec('SELECT * FROM categoria1 ORDER BY categoria1.descrizione ASC'));
+
         $f3->set('titolo','Nuovo');
         $f3->set('contenuto','nuovo.htm');
+        echo \Template::instance()->render('templates/base.htm');
+    }
+);
+
+$f3->route('GET @nuovo2: /nuovo/@num',
+    function($f3, $params) {
+        $cat1 = $params['num'];
+
+        $db=new DB\SQL('sqlite:database.sqlite');
+        $sql = 'SELECT categoria2.id, categoria2.descrizione AS cat2, categoria1.descrizione AS cat1 FROM categoria2 JOIN categoria1 ON categoria2.madre = categoria1.id WHERE categoria2.madre='.$cat1.' ORDER BY categoria1.descrizione ASC, categoria2.descrizione ASC';
+        $f3->set('categoria2',$db->exec($sql));
+
+        $f3->set('titolo','Nuovo');
+        $f3->set('contenuto','nuovo2.htm');
+        $f3->set('cat1', $cat1);
+        echo \Template::instance()->render('templates/base.htm');
+    }
+);
+
+$f3->route('GET @nuovo3: /nuovo/@cat1/@cat2',
+    function($f3, $params) {
+        $cat1 = $params['cat1'];
+        $cat2 = $params['cat2'];
+
+        $db=new DB\SQL('sqlite:database.sqlite');
+        $sql = 'SELECT categoria3.id, categoria3.descrizione AS cat3, categoria1.descrizione AS cat1, categoria2.descrizione AS cat2';
+        $sql.= ' FROM categoria3 JOIN categoria1 ON categoria2.madre = categoria1.id JOIN categoria2 ON categoria3.madre = categoria2.id';
+        $sql.= ' WHERE categoria3.madre = '.$cat2;
+        $sql.= ' ORDER BY categoria1.descrizione ASC, categoria2.descrizione ASC, categoria3.descrizione ASC';
+        $f3->set('categoria3',$db->exec($sql));
+
+        $f3->set('titolo','Nuovo');
+        $f3->set('contenuto','nuovo3.htm');
+        $f3->set('cat1', $cat1);
+        $f3->set('cat2', $cat2);
         echo \Template::instance()->render('templates/base.htm');
     }
 );
