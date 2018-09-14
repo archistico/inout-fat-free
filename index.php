@@ -153,7 +153,7 @@ $f3->route('GET @lista: /lista',
         $sql.= " JOIN categoria2 ON categoria2.id = movimenti.cat2";
         $sql.= " JOIN categoria3 ON categoria3.id = movimenti.cat3";
         $sql.= " JOIN categoria4 ON categoria4.id = movimenti.cat4";
-        $sql.= " ORDER BY giorno ASC";
+        $sql.= " ORDER BY giorno DESC";
 
         $f3->set('lista',$db->exec($sql));
         
@@ -179,11 +179,30 @@ $f3->route('GET @lista: /lista',
 
 $f3->route('GET @movimento: /movimento/@id', '\App\Movimento->Mostra');
 
+$f3->route('GET @cancella: /cancella/@id',
+    function($f3, $params) {
+        $f3->set('titolo','Homepage');
+        $f3->set('contenuto','cancella.htm');
+        $f3->set('id', $params['id']);
+        echo \Template::instance()->render('templates/base.htm');
+    }
+);
+
+$f3->route('POST @sopprimi: /sopprimi',
+    function($f3, $params) {
+        $id = $f3->get('POST.id');
+        $db=new DB\SQL('sqlite:database.sqlite');
+        $db->begin();
+        $sql = "DELETE FROM movimenti WHERE movimenti.id = $id";
+        $db->exec($sql);
+        $db->commit();
+
+        $f3->reroute('/lista');
+    }
+);
+
 $f3->route('GET @report: /report',
     function($f3) {
-
-        
-
         $f3->set('titolo','Report');
         $f3->set('contenuto','report.htm');
         echo \Template::instance()->render('templates/base.htm');

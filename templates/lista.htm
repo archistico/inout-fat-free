@@ -3,21 +3,21 @@
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                        <th scope="col">Data</th>
                     <th scope="col">Categoria</th>
-                    <th scope="col">Data</th>
                     <th scope="col">Importo</th>
                     <th scope="col">Note</th>
+                    <th scope="col">#</th>                    
                 </tr>
             </thead>
             <tbody>
                 <repeat group="{{ @lista }}" value="{{ @item }}">
                     <tr>
-                        <th scope="row">{{ @item.id }}</th>
-                        <td>{{ @unisci(@item.des1,@item.des2,@item.des3,@item.des4) }}</td>
                         <td>{{ @convertiData(@item.giorno) }}</td>
+                        <td>{{ @unisci(@item.des1,@item.des2,@item.des3,@item.des4) }}</td>
                         <td>{{ @item.importo }}</td>
                         <td>{{ @item.note }}</td>
+                        <th scope="row"><a href="cancella/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
                     </tr>
                 </repeat>
             </tbody>
