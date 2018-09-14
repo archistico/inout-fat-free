@@ -1,9 +1,26 @@
 <div class="row">
     <div class="col-md-12">
-        <ul>
-            <repeat group="{{ @lista }}" value="{{ @item }}">
-                <li>{{ @item.id }}| {{ @unisci(@item.des1,@item.des2,@item.des3,@item.des4) }} | {{ @convertiData(@item.giorno) }} | {{ @item.importo }} | {{ @item.note }}</li>
-            </repeat>
-        </ul>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Data</th>
+                    <th scope="col">Importo</th>
+                    <th scope="col">Note</th>
+                </tr>
+            </thead>
+            <tbody>
+                <repeat group="{{ @lista }}" value="{{ @item }}">
+                    <tr>
+                        <th scope="row">{{ @item.id }}</th>
+                        <td>{{ @unisci(@item.des1,@item.des2,@item.des3,@item.des4) }}</td>
+                        <td>{{ @convertiData(@item.giorno) }}</td>
+                        <td>{{ @item.importo }}</td>
+                        <td>{{ @item.note }}</td>
+                    </tr>
+                </repeat>
+            </tbody>
+        </table>
     </div>
 </div>
