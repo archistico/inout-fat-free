@@ -15,7 +15,7 @@
                     <tr>
                         <td>{{ @convertiData(@item.giorno) }}</td>
                         <td>{{ @unisci(@item.des1,@item.des2,@item.des3,@item.des4) }}</td>
-                        <td>{{ @item.importo }}</td>
+                        <td>{{ @euro(@item.importo) }}</td>
                         <td>{{ @item.note }}</td>
                         <th scope="row"><a href="cancella/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
                     </tr>

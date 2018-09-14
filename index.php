@@ -171,6 +171,12 @@ $f3->route('GET @lista: /lista',
             }
         );
 
+        $f3->set('euro',
+            function($i) {
+                return "€ ".number_format((float)$i, 2, '.', '');
+            }
+        );
+
         $f3->set('titolo','Lista');
         $f3->set('contenuto','lista.htm');
         echo \Template::instance()->render('templates/base.htm');
