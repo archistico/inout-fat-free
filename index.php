@@ -109,18 +109,40 @@ $f3->route('POST @registra: /registra',
         $cat2 = $f3->get('POST.cat2');
         $cat3 = $f3->get('POST.cat3');
         $cat4 = $f3->get('POST.cat4');
+        $categoria = "";
 
-        $f3->set('cat4', $cat4);
+        $db=new DB\SQL('sqlite:database.sqlite');
+        
+        $rcat1 = $db->exec("SELECT * FROM categoria1 WHERE id = $cat1");
+        $categoria.=$rcat1[0]['descrizione'];
+        $rcat2 = $db->exec("SELECT * FROM categoria2 WHERE id = $cat2");
+        $categoria.= " / ".$rcat2[0]['descrizione'];
+        $rcat3 = $db->exec("SELECT * FROM categoria3 WHERE id = $cat3");
+        $categoria.= " / ".$rcat3[0]['descrizione'];
+        $rcat4 = $db->exec("SELECT * FROM categoria4 WHERE id = $cat4");
+        $categoria.= " / ".$rcat4[0]['descrizione'];
+
+        $f3->set('categoria', $categoria);
         $f3->set('importo', $importo);
         $f3->set('data', $data);
         $f3->set('note', $note);
-        
+
+        $jd=juliantojd(6,20,2007);
+         
+        $db->begin();
+        $sql = "INSERT into movimenti values(null, $jd, $importo, '$note', $cat1, $cat2, $cat3, $cat4)";
+        $db->exec($sql);
+        $db->commit();
+
         echo \Template::instance()->render('templates/base.htm');
     }
 );
 
 $f3->route('GET @lista: /lista',
     function($f3) {
+        $db=new DB\SQL('sqlite:database.sqlite');
+        $f3->set('lista',$db->exec('SELECT * FROM movimenti ORDER BY giorno ASC'));
+
         $f3->set('titolo','Lista');
         $f3->set('contenuto','lista.htm');
         echo \Template::instance()->render('templates/base.htm');
@@ -131,23 +153,24 @@ $f3->route('GET @movimento: /movimento/@id', '\App\Movimento->Mostra');
 
 $f3->route('GET @report: /report',
     function($f3) {
+
+        
+
         $f3->set('titolo','Report');
         $f3->set('contenuto','report.htm');
         echo \Template::instance()->render('templates/base.htm');
     }
 );
 
+/*
+$admins = new \DB\SQL\Mapper($f3->get('DB'), 'admins');
+$username = $admins->findone(['username = ?', $f3->get('POST.username')])->username;
+*/
 
 $f3->route('GET @data: /data',
     function($f3) {
         
         $db=new DB\SQL('sqlite:database.sqlite');
-
-        /*
-        $db->begin();
-        $db->exec('INSERT into users values(null, "nuova")');
-        $db->commit();
-        */
 
         $f3->set('categoria1',$db->exec('SELECT * FROM categoria1 ORDER BY categoria1.descrizione ASC'));
 
