@@ -37,7 +37,7 @@ $f3->route('GET @report: /report',
 );
 
 
-$f3->route('GET /data',
+$f3->route('GET @data: /data',
     function($f3) {
         
         $db=new DB\SQL('sqlite:database.sqlite');
@@ -55,6 +55,9 @@ $f3->route('GET /data',
         
         $sql = 'SELECT categoria3.id, categoria3.descrizione, categoria1.descrizione AS cat1, categoria2.descrizione AS cat2 FROM categoria3 JOIN categoria1 ON categoria2.madre = categoria1.id JOIN categoria2 ON categoria3.madre = categoria2.id ORDER BY categoria1.descrizione ASC, categoria2.descrizione ASC, categoria3.descrizione ASC';
         $f3->set('categoria3',$db->exec($sql));
+
+        $sql = 'SELECT categoria4.id, categoria4.descrizione AS cat4, categoria3.descrizione AS cat3, categoria2.descrizione AS cat2, categoria1.descrizione AS cat1 FROM categoria4 JOIN categoria1 ON categoria2.madre = categoria1.id JOIN categoria2 ON categoria3.madre = categoria2.id JOIN categoria3 ON categoria4.madre = categoria3.id ORDER BY categoria1.descrizione ASC, categoria2.descrizione ASC, categoria3.descrizione ASC, categoria4.descrizione ASC';
+        $f3->set('categoria4',$db->exec($sql));
 
         $f3->set('titolo','Data');
         $f3->set('contenuto','data.htm');

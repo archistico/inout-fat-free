@@ -1,4 +1,11 @@
 <ul>
+    <repeat group="{{ @categoria4 }}" value="{{ @item }}">
+        <li>{{ @item.cat1 }}/{{ @item.cat2 }}/{{ @item.cat3 }}/{{ @item.cat4 }} ({{ @item.id }}) </li>
+    </repeat>
+</ul>
+
+<hr>
+<ul>
     <repeat group="{{ @categoria1 }}" value="{{ @item }}">
         <li>{{ @item.descrizione }} ({{ @item.id }})</li>
     </repeat>

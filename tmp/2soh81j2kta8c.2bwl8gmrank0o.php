@@ -25,6 +25,12 @@
             Report
           </a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link <?php if ($titolo=='Data'): ?>active<?php endif; ?>" href="<?= (Base::instance()->alias('data')) ?>">
+            <span data-feather="bar-chart-2"></span>
+            Data
+          </a>
+        </li>
         
       </ul>
     </div>
