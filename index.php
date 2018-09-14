@@ -143,7 +143,33 @@ $f3->route('POST @registra: /registra',
 $f3->route('GET @lista: /lista',
     function($f3) {
         $db=new DB\SQL('sqlite:database.sqlite');
-        $f3->set('lista',$db->exec('SELECT * FROM movimenti ORDER BY giorno ASC'));
+        $sql = "SELECT movimenti.id, movimenti.giorno, movimenti.importo, movimenti.note,"; 
+        $sql.= " categoria1.descrizione AS des1,";
+        $sql.= " categoria2.descrizione AS des2,";
+        $sql.= " categoria3.descrizione AS des3,";
+        $sql.= " categoria4.descrizione AS des4";
+        $sql.= " FROM movimenti";
+        $sql.= " JOIN categoria1 ON categoria1.id = movimenti.cat1";
+        $sql.= " JOIN categoria2 ON categoria2.id = movimenti.cat2";
+        $sql.= " JOIN categoria3 ON categoria3.id = movimenti.cat3";
+        $sql.= " JOIN categoria4 ON categoria4.id = movimenti.cat4";
+        $sql.= " ORDER BY giorno ASC";
+
+        $f3->set('lista',$db->exec($sql));
+        
+        $f3->set('convertiData',
+            function($d) {
+                $str = jdtojulian($d);
+                $dmy = DateTime::createFromFormat('m/d/Y', $str)->format('d/m/Y');
+                return $dmy;
+            }
+        );
+
+        $f3->set('unisci',
+            function($a, $b, $c, $d) {
+                return $a." / ".$b." / ".$c." / ".$d;
+            }
+        );
 
         $f3->set('titolo','Lista');
         $f3->set('contenuto','lista.htm');
