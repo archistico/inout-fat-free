@@ -56,6 +56,29 @@ $f3->route('GET @nuovo3: /nuovo/@cat1/@cat2',
     }
 );
 
+$f3->route('GET @nuovo4: /nuovo/@cat1/@cat2/@cat3',
+    function($f3, $params) {
+        $cat1 = $params['cat1'];
+        $cat2 = $params['cat2'];
+        $cat3 = $params['cat3'];
+
+        $db=new DB\SQL('sqlite:database.sqlite');
+        $sql = 'SELECT categoria4.id, categoria4.descrizione AS cat4, categoria3.descrizione AS cat3, categoria1.descrizione AS cat1, categoria2.descrizione AS cat2';
+        $sql.= ' FROM categoria4 JOIN categoria1 ON categoria2.madre = categoria1.id JOIN categoria2 ON categoria3.madre = categoria2.id JOIN categoria3 ON categoria4.madre = categoria3.id';
+        $sql.= ' WHERE categoria4.madre = '.$cat3;
+        $sql.= ' ORDER BY categoria1.descrizione ASC, categoria2.descrizione ASC, categoria3.descrizione ASC, categoria4.descrizione ASC';
+        $f3->set('categoria4',$db->exec($sql));
+
+        $f3->set('titolo','Nuovo');
+        $f3->set('contenuto','nuovo4.htm');
+        $f3->set('cat1', $cat1);
+        $f3->set('cat2', $cat2);
+        $f3->set('cat3', $cat3);
+
+        echo \Template::instance()->render('templates/base.htm');
+    }
+);
+
 $f3->route('GET @lista: /lista',
     function($f3) {
         $f3->set('titolo','Lista');
