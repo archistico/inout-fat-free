@@ -127,8 +127,10 @@ $f3->route('POST @registra: /registra',
         $f3->set('data', $data);
         $f3->set('note', $note);
 
-        $jd=juliantojd(6,20,2007);
-         
+        // 2018-09-13
+        $data_array = explode("-", $data);
+        $jd=juliantojd($data_array[1],$data_array[2],$data_array[0]);
+        
         $db->begin();
         $sql = "INSERT into movimenti values(null, $jd, $importo, '$note', $cat1, $cat2, $cat3, $cat4)";
         $db->exec($sql);
@@ -161,11 +163,6 @@ $f3->route('GET @report: /report',
         echo \Template::instance()->render('templates/base.htm');
     }
 );
-
-/*
-$admins = new \DB\SQL\Mapper($f3->get('DB'), 'admins');
-$username = $admins->findone(['username = ?', $f3->get('POST.username')])->username;
-*/
 
 $f3->route('GET @data: /data',
     function($f3) {
