@@ -79,6 +79,24 @@ $f3->route('GET @nuovo4: /nuovo/@cat1/@cat2/@cat3',
     }
 );
 
+$f3->route('GET @nuovo5: /nuovo/@cat1/@cat2/@cat3/@cat4',
+    function($f3, $params) {
+        $cat1 = $params['cat1'];
+        $cat2 = $params['cat2'];
+        $cat3 = $params['cat3'];
+        $cat4 = $params['cat4'];
+
+        $f3->set('titolo','Nuovo');
+        $f3->set('contenuto','nuovo5.htm');
+        $f3->set('cat1', $cat1);
+        $f3->set('cat2', $cat2);
+        $f3->set('cat3', $cat3);
+        $f3->set('cat4', $cat4);
+
+        echo \Template::instance()->render('templates/base.htm');
+    }
+);
+
 $f3->route('GET @lista: /lista',
     function($f3) {
         $f3->set('titolo','Lista');
