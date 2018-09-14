@@ -97,6 +97,28 @@ $f3->route('GET @nuovo5: /nuovo/@cat1/@cat2/@cat3/@cat4',
     }
 );
 
+$f3->route('POST @registra: /registra',
+    function($f3, $params) {
+        $f3->set('titolo','Registra');
+        $f3->set('contenuto','registra.htm');
+
+        $importo = $f3->get('POST.importo');
+        $data = $f3->get('POST.data');
+        $note = $f3->get('POST.note');
+        $cat1 = $f3->get('POST.cat1');
+        $cat2 = $f3->get('POST.cat2');
+        $cat3 = $f3->get('POST.cat3');
+        $cat4 = $f3->get('POST.cat4');
+
+        $f3->set('cat4', $cat4);
+        $f3->set('importo', $importo);
+        $f3->set('data', $data);
+        $f3->set('note', $note);
+        
+        echo \Template::instance()->render('templates/base.htm');
+    }
+);
+
 $f3->route('GET @lista: /lista',
     function($f3) {
         $f3->set('titolo','Lista');

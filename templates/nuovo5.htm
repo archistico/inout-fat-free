@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12">
         <p>Nuovo movimento</p>
-        <form method="GET" action="">
+        <form method="POST" action="{{ 'registra' | alias }}">
             <div class="form-group">
                 <label for="InputData">Data</label>
                 <input type="date" class="form-control" id="InputData" placeholder="Data" name="data" required>
