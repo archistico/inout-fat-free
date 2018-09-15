@@ -1,6 +1,7 @@
 <?php
 require 'vendor/autoload.php';
 $f3 = \Base::instance();
+//$f3->set('DEBUG',3);
 
 function euro($i) {
     if($i>=0) {
