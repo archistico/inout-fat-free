@@ -2,8 +2,37 @@
 require 'vendor/autoload.php';
 $f3 = \Base::instance();
 
+function euro($i) {
+    if($i>=0) {
+        return "+".number_format((float)$i, 2, '.', '')." €";    
+    } else {
+        return number_format((float)$i, 2, '.', '')." €";
+    }        
+}
+
 $f3->route('GET @homepage: /',
     function($f3) {
+        $db=new DB\SQL('sqlite:database.sqlite');
+        
+        $sql = 'SELECT SUM(importo) AS somma';
+        $sql.= ' FROM movimenti';
+        $sql.= ' WHERE cat1 = 2';
+        $risultato = $db->exec($sql);
+        $totentrate = $risultato[0]['somma'];
+
+        $sql = 'SELECT SUM(importo) AS somma';
+        $sql.= ' FROM movimenti';
+        $sql.= ' WHERE cat1 = 1';
+        $risultato = $db->exec($sql);
+        $totuscite = $risultato[0]['somma'];
+
+        $differenza = $totentrate+$totuscite;
+
+        $f3->set('totentrate',$totentrate);
+        $f3->set('totuscite',$totuscite);
+        $f3->set('differenza',$differenza);
+
+        $f3->set('euro', euro);
         $f3->set('titolo','Homepage');
         $f3->set('contenuto','homepage.htm');
         echo \Template::instance()->render('templates/base.htm');
@@ -109,6 +138,11 @@ $f3->route('POST @registra: /registra',
         $cat2 = $f3->get('POST.cat2');
         $cat3 = $f3->get('POST.cat3');
         $cat4 = $f3->get('POST.cat4');
+
+        if($cat1 == 1) {
+            $importo = -$importo;
+        }
+
         $categoria = "";
 
         $db=new DB\SQL('sqlite:database.sqlite');
@@ -171,11 +205,7 @@ $f3->route('GET @lista: /lista',
             }
         );
 
-        $f3->set('euro',
-            function($i) {
-                return "€ ".number_format((float)$i, 2, '.', '');
-            }
-        );
+        $f3->set('euro', euro);
 
         $f3->set('titolo','Lista');
         $f3->set('contenuto','lista.htm');
