@@ -11,7 +11,7 @@ function euro($i) {
     }        
 }
 
-$f3->route('GET @homepage: /',
+$f3->route('GET @home: /',
     function($f3) {
         $db=new DB\SQL('sqlite:database.sqlite');
         
@@ -34,7 +34,7 @@ $f3->route('GET @homepage: /',
         $f3->set('differenza',$differenza);
 
         $f3->set('euro', euro);
-        $f3->set('titolo','Homepage');
+        $f3->set('titolo','Home');
         $f3->set('contenuto','homepage.htm');
         echo \Template::instance()->render('templates/base.htm');
     }

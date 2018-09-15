@@ -1,9 +1,9 @@
 <div class="collapse navbar-collapse" id="navbarsExampleDefault">
   <ul class="navbar-nav mr-auto">
     <li class="nav-item">
-      <a class="nav-link <check if=" {{ @titolo=='Homepage' }} "><true>active</true></check> " href="{{@BASE}}{{ 'homepage' | alias }}">
+      <a class="nav-link <check if=" {{ @titolo=='Home' }} "><true>active</true></check> " href="{{@BASE}}{{ 'home' | alias }}">
         <span data-feather="home"></span>
-        Homepage
+        Home
       </a>
     </li>
     <li class="nav-item">
@@ -16,18 +16,6 @@
       <a class="nav-link <check if=" {{ @titolo=='Lista' }} "><true>active</true></check>" href="{{@BASE}}{{ 'lista' | alias }}">
         <span data-feather="layers"></span>
         Lista
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link <check if=" {{ @titolo=='Report' }} "><true>active</true></check>" href="{{@BASE}}{{ 'report' | alias }}">
-        <span data-feather="bar-chart-2"></span>
-        Report
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link <check if=" {{ @titolo=='Data' }} "><true>active</true></check>" href="{{@BASE}}{{ 'data' | alias }}">
-        <span data-feather="bar-chart-2"></span>
-        Data
       </a>
     </li>
   </ul>
