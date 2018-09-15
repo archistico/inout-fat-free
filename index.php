@@ -29,6 +29,23 @@ $f3->route('GET @home: /',
 
         $differenza = $totentrate+$totuscite;
 
+        $sql = 'SELECT categoria1.descrizione AS des1, categoria2.descrizione AS des2, SUM(importo) AS subtotale';
+        $sql.= ' FROM movimenti';
+        $sql.= ' JOIN categoria1 ON movimenti.cat1 = categoria1.id';
+        $sql.= ' JOIN categoria2 ON movimenti.cat2 = categoria2.id';
+        $sql.= ' WHERE movimenti.cat1 = 1';
+        $sql.= ' GROUP BY categoria2.id';
+        $f3->set('listauscite2',$db->exec($sql));
+        
+        $sql = 'SELECT categoria1.descrizione AS des1, categoria2.descrizione AS des2, SUM(importo) AS subtotale';
+        $sql.= ' FROM movimenti';
+        $sql.= ' JOIN categoria1 ON movimenti.cat1 = categoria1.id';
+        $sql.= ' JOIN categoria2 ON movimenti.cat2 = categoria2.id';
+        $sql.= ' WHERE movimenti.cat1 = 2';
+        $sql.= ' GROUP BY categoria2.id';
+        $f3->set('listaentrate2',$db->exec($sql));
+
+
         $f3->set('totentrate',$totentrate);
         $f3->set('totuscite',$totuscite);
         $f3->set('differenza',$differenza);

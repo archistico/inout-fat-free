@@ -24,9 +24,44 @@
         </div>
     </div>
 </div>
-
+<hr>
 <div class="row">
-    <div class="col-md-12">
-        
+    <div class="col-md-6">
+        <h4>Categorie Entrate</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col" class="d-none d-sm-table-cell">Categoria</th>
+                    <th scope="col" class="text-right">Subotale</th>
+                </tr>
+            </thead>
+            <tbody>
+                <repeat group="{{ @listaentrate2 }}" value="{{ @item }}">
+                    <tr>
+                        <td>{{ @item.des2 }}</td>
+                        <td class="text-right">{{ @euro(@item.subtotale) }}</td>
+                    </tr>
+                </repeat>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-md-6">
+        <h4>Categorie Uscite</h4>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col" class="d-none d-sm-table-cell">Categoria</th>
+                    <th scope="col" class="text-right">Subotale</th>
+                </tr>
+            </thead>
+            <tbody>
+                <repeat group="{{ @listauscite2 }}" value="{{ @item }}">
+                    <tr>
+                        <td>{{ @item.des2 }}</td>
+                        <td class="text-right">{{ @euro(@item.subtotale) }}</td>
+                    </tr>
+                </repeat>
+            </tbody>
+        </table>
     </div>
 </div>
