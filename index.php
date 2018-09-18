@@ -286,4 +286,29 @@ $f3->route('GET @data: /data',
     }
 );
 
+$f3->route('GET @temp: /temp',
+    function($f3) {
+        
+        $db=new DB\SQL('sqlite:database.sqlite');
+
+        $user = new \DB\SQL\Mapper($db, 'users');
+        $auth = new \Auth($user, array('id'=>'user_id', 'pw'=>'password'));
+        $login_result = $auth->login('admin','prova'); // returns true on successful login
+        
+        if($login_result === true) {
+            $f3->set('login','Login ok');    
+        } else {
+            $f3->set('login','Login errato');
+        }
+
+        $hash = hash('sha512', 'prova');
+        $f3->set('hash',$hash);
+
+        $f3->set('titolo','Temp');
+        $f3->set('contenuto','temp.htm');
+        
+        echo Template::instance()->render('templates/base.htm');
+    }
+);
+
 $f3->run();
