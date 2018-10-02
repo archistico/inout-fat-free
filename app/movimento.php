@@ -124,6 +124,11 @@ class Movimento
         $cat1 = $params['num'];
 
         $db = new \DB\SQL('sqlite:.database.sqlite');
+
+        $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
+        $risultato = $db->exec($sql);
+        $f3->set('categoria1', $risultato[0]['categoria1']);
+
         $sql = 'SELECT categoria2.id, categoria2.descrizione AS cat2, categoria1.descrizione AS cat1 FROM categoria2 JOIN categoria1 ON categoria2.madre = categoria1.id WHERE categoria2.madre=' . $cat1 . ' ORDER BY categoria1.descrizione ASC, categoria2.descrizione ASC';
         $f3->set('categoria2', $db->exec($sql));
 
@@ -139,6 +144,15 @@ class Movimento
         $cat2 = $params['cat2'];
 
         $db = new \DB\SQL('sqlite:.database.sqlite');
+
+        $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
+        $risultato = $db->exec($sql);
+        $f3->set('categoria1', $risultato[0]['categoria1']);
+
+        $sql = 'SELECT categoria2.descrizione AS categoria2 FROM categoria2 WHERE categoria2.id=' . $cat2;
+        $risultato = $db->exec($sql);
+        $f3->set('categoria2', $risultato[0]['categoria2']);
+
         $sql = 'SELECT categoria3.id, categoria3.descrizione AS cat3, categoria1.descrizione AS cat1, categoria2.descrizione AS cat2';
         $sql .= ' FROM categoria3 JOIN categoria1 ON categoria2.madre = categoria1.id JOIN categoria2 ON categoria3.madre = categoria2.id';
         $sql .= ' WHERE categoria3.madre = ' . $cat2;
@@ -159,6 +173,20 @@ class Movimento
         $cat3 = $params['cat3'];
 
         $db = new \DB\SQL('sqlite:.database.sqlite');
+
+        $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
+        $risultato = $db->exec($sql);
+        $f3->set('categoria1', $risultato[0]['categoria1']);
+
+        $sql = 'SELECT categoria2.descrizione AS categoria2 FROM categoria2 WHERE categoria2.id=' . $cat2;
+        $risultato = $db->exec($sql);
+        $f3->set('categoria2', $risultato[0]['categoria2']);
+
+        $sql = 'SELECT categoria3.descrizione AS categoria3 FROM categoria3 WHERE categoria3.id=' . $cat3;
+        $risultato = $db->exec($sql);
+        $f3->set('categoria3', $risultato[0]['categoria3']);
+
+        
         $sql = 'SELECT categoria4.id, categoria4.descrizione AS cat4, categoria3.descrizione AS cat3, categoria1.descrizione AS cat1, categoria2.descrizione AS cat2';
         $sql .= ' FROM categoria4 JOIN categoria1 ON categoria2.madre = categoria1.id JOIN categoria2 ON categoria3.madre = categoria2.id JOIN categoria3 ON categoria4.madre = categoria3.id';
         $sql .= ' WHERE categoria4.madre = ' . $cat3;
@@ -180,6 +208,24 @@ class Movimento
         $cat2 = $params['cat2'];
         $cat3 = $params['cat3'];
         $cat4 = $params['cat4'];
+
+        $db = new \DB\SQL('sqlite:.database.sqlite');
+        
+        $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
+        $risultato = $db->exec($sql);
+        $f3->set('categoria1', $risultato[0]['categoria1']);
+
+        $sql = 'SELECT categoria2.descrizione AS categoria2 FROM categoria2 WHERE categoria2.id=' . $cat2;
+        $risultato = $db->exec($sql);
+        $f3->set('categoria2', $risultato[0]['categoria2']);
+
+        $sql = 'SELECT categoria3.descrizione AS categoria3 FROM categoria3 WHERE categoria3.id=' . $cat3;
+        $risultato = $db->exec($sql);
+        $f3->set('categoria3', $risultato[0]['categoria3']);
+
+        $sql = 'SELECT categoria4.descrizione AS categoria4 FROM categoria4 WHERE categoria4.id=' . $cat4;
+        $risultato = $db->exec($sql);
+        $f3->set('categoria4', $risultato[0]['categoria4']);
 
         $f3->set('titolo', 'Nuovo');
         $f3->set('contenuto', 'nuovo5.htm');
