@@ -15,7 +15,7 @@ class Movimento
     
     public function Homepage($f3)
     {
-        $db = new \DB\SQL('sqlite:.database.sqlite');
+        $db = new \DB\SQL('sqlite:db/database.sqlite');
 
         $sql = 'SELECT SUM(importo) AS somma';
         $sql .= ' FROM movimenti';
@@ -66,7 +66,7 @@ class Movimento
 
     public function Lista($f3)
     {
-        $db = new \DB\SQL('sqlite:.database.sqlite');
+        $db = new \DB\SQL('sqlite:db/database.sqlite');
         $sql = "SELECT movimenti.id, movimenti.giorno, movimenti.importo, movimenti.note,";
         $sql .= " categoria1.descrizione AS des1,";
         $sql .= " categoria2.descrizione AS des2,";
@@ -105,17 +105,17 @@ class Movimento
         );
 
         $f3->set('titolo', 'Lista');
-        $f3->set('contenuto', 'lista.htm');
+        $f3->set('contenuto', '/movimento/lista.htm');
         echo \Template::instance()->render('templates/base.htm');
     }
 
     public function Nuovo($f3)
     {
-        $db = new \DB\SQL('sqlite:.database.sqlite');
+        $db = new \DB\SQL('sqlite:db/database.sqlite');
         $f3->set('categoria1', $db->exec('SELECT * FROM categoria1 ORDER BY categoria1.descrizione ASC'));
 
         $f3->set('titolo', 'Nuovo');
-        $f3->set('contenuto', 'nuovo.htm');
+        $f3->set('contenuto', 'movimento/nuovo.htm');
         echo \Template::instance()->render('templates/base.htm');
     }
 
@@ -123,7 +123,7 @@ class Movimento
     {
         $cat1 = $params['num'];
 
-        $db = new \DB\SQL('sqlite:.database.sqlite');
+        $db = new \DB\SQL('sqlite:db/database.sqlite');
 
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -133,7 +133,7 @@ class Movimento
         $f3->set('categoria2', $db->exec($sql));
 
         $f3->set('titolo', 'Nuovo');
-        $f3->set('contenuto', 'nuovo2.htm');
+        $f3->set('contenuto', 'movimento/nuovo2.htm');
         $f3->set('cat1', $cat1);
         echo \Template::instance()->render('templates/base.htm');
     }
@@ -143,7 +143,7 @@ class Movimento
         $cat1 = $params['cat1'];
         $cat2 = $params['cat2'];
 
-        $db = new \DB\SQL('sqlite:.database.sqlite');
+        $db = new \DB\SQL('sqlite:db/database.sqlite');
 
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -160,7 +160,7 @@ class Movimento
         $f3->set('categoria3', $db->exec($sql));
 
         $f3->set('titolo', 'Nuovo');
-        $f3->set('contenuto', 'nuovo3.htm');
+        $f3->set('contenuto', 'movimento/nuovo3.htm');
         $f3->set('cat1', $cat1);
         $f3->set('cat2', $cat2);
         echo \Template::instance()->render('templates/base.htm');
@@ -172,7 +172,7 @@ class Movimento
         $cat2 = $params['cat2'];
         $cat3 = $params['cat3'];
 
-        $db = new \DB\SQL('sqlite:.database.sqlite');
+        $db = new \DB\SQL('sqlite:db/database.sqlite');
 
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -194,7 +194,7 @@ class Movimento
         $f3->set('categoria4', $db->exec($sql));
 
         $f3->set('titolo', 'Nuovo');
-        $f3->set('contenuto', 'nuovo4.htm');
+        $f3->set('contenuto', 'movimento/nuovo4.htm');
         $f3->set('cat1', $cat1);
         $f3->set('cat2', $cat2);
         $f3->set('cat3', $cat3);
@@ -209,7 +209,7 @@ class Movimento
         $cat3 = $params['cat3'];
         $cat4 = $params['cat4'];
 
-        $db = new \DB\SQL('sqlite:.database.sqlite');
+        $db = new \DB\SQL('sqlite:db/database.sqlite');
         
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -228,7 +228,7 @@ class Movimento
         $f3->set('categoria4', $risultato[0]['categoria4']);
 
         $f3->set('titolo', 'Nuovo');
-        $f3->set('contenuto', 'nuovo5.htm');
+        $f3->set('contenuto', 'movimento/nuovo5.htm');
         $f3->set('cat1', $cat1);
         $f3->set('cat2', $cat2);
         $f3->set('cat3', $cat3);
@@ -253,8 +253,9 @@ class Movimento
 
         $categoria = "";
 
-        $db = new \DB\SQL('sqlite:.database.sqlite');
+        $db = new \DB\SQL('sqlite:db/database.sqlite');
 
+        /*
         $rcat1 = $db->exec("SELECT * FROM categoria1 WHERE id = $cat1");
         $categoria .= $rcat1[0]['descrizione'];
         $rcat2 = $db->exec("SELECT * FROM categoria2 WHERE id = $cat2");
@@ -268,23 +269,30 @@ class Movimento
         $f3->set('importo', $importo);
         $f3->set('data', $data);
         $f3->set('note', $note);
+        */
 
         // 2018-09-13
         $data_array = explode("-", $data);
         $jd = juliantojd($data_array[1], $data_array[2], $data_array[0]);
 
+        $importo = str_replace(',', '.', (string)$importo);
+
+        $note = str_replace('"', "", $note);
+        $note = str_replace("'", "", $note);
+
         $db->begin();
-        $sql = "INSERT into movimenti values(null, $jd, $importo, '$note', $cat1, $cat2, $cat3, $cat4)";
+        $sql = "INSERT into movimenti values(null, '$jd', '$importo', '$note', '$cat1', '$cat2', '$cat3', '$cat4')";
+        
         $db->exec($sql);
         $db->commit();
 
-        $f3->reroute('/lista');
+        $f3->reroute('/movimento/lista');
     }
 
     public function Cancella($f3, $params)
     {
         $f3->set('titolo', 'Homepage');
-        $f3->set('contenuto', 'cancella.htm');
+        $f3->set('contenuto', 'movimento/cancella.htm');
         $f3->set('id', $params['id']);
         echo \Template::instance()->render('templates/base.htm');
     }
@@ -292,12 +300,12 @@ class Movimento
     public function Sopprimi($f3, $params)
     {
         $id = $f3->get('POST.id');
-        $db = new \DB\SQL('sqlite:.database.sqlite');
+        $db = new \DB\SQL('sqlite:db/database.sqlite');
         $db->begin();
         $sql = "DELETE FROM movimenti WHERE movimenti.id = $id";
         $db->exec($sql);
         $db->commit();
 
-        $f3->reroute('/lista');
+        $f3->reroute('/movimento/lista');
     }
 }

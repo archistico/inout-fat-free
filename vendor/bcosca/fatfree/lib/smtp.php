@@ -2,7 +2,7 @@
 
 /*
 
-	Copyright (c) 2009-2017 F3::Factory/Bong Cosca, All rights reserved.
+	Copyright (c) 2009-2019 F3::Factory/Bong Cosca, All rights reserved.
 
 	This file is part of the Fat-Free Framework (http://fatfreeframework.com).
 
@@ -204,14 +204,19 @@ class SMTP extends Magic {
 			stream_set_blocking($socket,TRUE);
 		}
 		// Get server's initial response
-		$this->dialog(NULL,TRUE,$mock);
+		$this->dialog(NULL,$log,$mock);
 		// Announce presence
 		$reply=$this->dialog('EHLO '.$fw->HOST,$log,$mock);
 		if (strtolower($this->scheme)=='tls') {
 			$this->dialog('STARTTLS',$log,$mock);
-			if (!$mock)
-				stream_socket_enable_crypto(
-					$socket,TRUE,STREAM_CRYPTO_METHOD_TLS_CLIENT);
+			if (!$mock) {
+				$method=STREAM_CRYPTO_METHOD_TLS_CLIENT;
+				if (defined('STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT')) {
+					$method|=STREAM_CRYPTO_METHOD_TLSv1_2_CLIENT;
+					$method|=STREAM_CRYPTO_METHOD_TLSv1_1_CLIENT;
+				}
+				stream_socket_enable_crypto($socket,TRUE,$method);
+			}
 			$reply=$this->dialog('EHLO '.$fw->HOST,$log,$mock);
 		}
 		$message=wordwrap($message,998);
@@ -259,8 +264,10 @@ class SMTP extends Magic {
 			}
 			unset($val);
 		}
+		$from=isset($headers['Sender'])?$headers['Sender']:strstr($headers['From'],'<');
+		unset($headers['Sender']);
 		// Start message dialog
-		$this->dialog('MAIL FROM: '.strstr($headers['From'],'<'),$log,$mock);
+		$this->dialog('MAIL FROM: '.$from,$log,$mock);
 		foreach ($fw->split($headers['To'].
 			(isset($headers['Cc'])?(';'.$headers['Cc']):'').
 			(isset($headers['Bcc'])?(';'.$headers['Bcc']):'')) as $dst) {

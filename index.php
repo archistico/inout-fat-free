@@ -4,16 +4,22 @@ $f3 = \Base::instance();
 $f3->set('CACHE', true);
 $f3->set('DEBUG', 3);
 
-$f3->route('GET @lista: /lista', '\App\Movimento->Lista');
-$f3->route('GET @home: /', '\App\Movimento->Homepage');
-$f3->route('GET @nuovo: /nuovo', '\App\Movimento->Nuovo');
-$f3->route('GET @nuovo2: /nuovo/@num', '\App\Movimento->Nuovo2');
-$f3->route('GET @nuovo3: /nuovo/@cat1/@cat2', '\App\Movimento->Nuovo3');
-$f3->route('GET @nuovo4: /nuovo/@cat1/@cat2/@cat3', '\App\Movimento->Nuovo4');
-$f3->route('GET @nuovo5: /nuovo/@cat1/@cat2/@cat3/@cat4', '\App\Movimento->Nuovo5');
-$f3->route('POST @registra: /registra', '\App\Movimento->Registra');
-$f3->route('GET @cancella: /cancella/@id', '\App\Movimento->Cancella');
-$f3->route('POST @sopprimi: /sopprimi', '\App\Movimento->Sopprimi');
+$f3->route('GET @home: /', '\App\Home->Homepage');
+
+// Todo
+$f3->route('GET @todocancella: /todo/cancella/@id', '\App\Todo->Cancella');
+$f3->route('POST @todoaggiungi: /todo/aggiungi', '\App\Todo->Aggiungi');
+
+// Entrate/Uscite
+$f3->route('GET @movimentolista: /movimento/lista', '\App\Movimento->Lista');
+$f3->route('GET @movimentonuovo: /movimento/nuovo', '\App\Movimento->Nuovo');
+$f3->route('GET @movimentonuovo2: /movimento/nuovo/@num', '\App\Movimento->Nuovo2');
+$f3->route('GET @movimentonuovo3: /movimento/nuovo/@cat1/@cat2', '\App\Movimento->Nuovo3');
+$f3->route('GET @movimentonuovo4: /movimento/nuovo/@cat1/@cat2/@cat3', '\App\Movimento->Nuovo4');
+$f3->route('GET @movimentonuovo5: /movimento/nuovo/@cat1/@cat2/@cat3/@cat4', '\App\Movimento->Nuovo5');
+$f3->route('POST @movimentoregistra: /movimento/registra', '\App\Movimento->Registra');
+$f3->route('GET @movimentocancella: /movimento/cancella/@id', '\App\Movimento->Cancella');
+$f3->route('POST @movimentosopprimi: /movimento/sopprimi', '\App\Movimento->Sopprimi');
 
 // Autenticazione
 $f3->route('GET @login: /login', '\App\Auth->Login');
@@ -24,5 +30,13 @@ $f3->route('GET @utente: /utente', '\App\Admin->UtenteLista');
 $f3->route('GET @utentenuovo: /utente/nuovo', '\App\Admin->UtenteNuovo');
 $f3->route('GET @utentecancella: /utente/cancella/@user_id', '\App\Admin->UtenteCancella');
 $f3->route('POST @utenteregistra: /utente/registra', '\App\Admin->UtenteRegistra');
+
+// Se errori
+/*
+$f3->set('ONERROR',function($f3){
+    $f3->reroute('/login');
+    // $f3->error(403, "Rifare il login");
+});
+*/
 
 $f3->run();

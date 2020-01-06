@@ -18,17 +18,17 @@ class Admin
     public function UtenteNuovo($f3, $args)
     {
         $f3->set('titolo', 'Utente');
-        $f3->set('contenuto', 'utentenuovo.htm');
+        $f3->set('contenuto', 'utente/utentenuovo.htm');
         echo \Template::instance()->render('templates/base.htm');
     }
 
     public function UtenteLista($f3, $args)
     {
-        $db = new \DB\SQL('sqlite:.database.sqlite');
+        $db = new \DB\SQL('sqlite:db/database.sqlite');
         $sql = "SELECT user_id from users";
         $f3->set('lista', $db->exec($sql));
         $f3->set('titolo', 'Utente');
-        $f3->set('contenuto', 'utentelista.htm');
+        $f3->set('contenuto', 'utente/utentelista.htm');
         echo \Template::instance()->render('templates/base.htm');
     }
 
@@ -38,10 +38,12 @@ class Admin
             // CARICA I DATI INVIATI E DI SESSIONE
             $utente = $f3->get('POST.utente');
             $utente = str_replace(" ", "_", $utente);
-            $password_hash = $f3->get('POST.p');
-            $db = new \DB\SQL('sqlite:.database.sqlite');
+            $password = $f3->get('POST.p');
+            $hash = hash('sha512', $password, false);
+
+            $db = new \DB\SQL('sqlite:db/database.sqlite');
             $db->begin();
-            $sql = "INSERT INTO users VALUES('$utente', '$password_hash')";
+            $sql = "INSERT INTO users VALUES('$utente', '$hash')";
             $db->exec($sql);
             $db->commit();
             $f3->reroute('/utente');
@@ -52,7 +54,7 @@ class Admin
     {
         $utente = $f3->get('PARAMS.user_id');
 
-        $db = new \DB\SQL('sqlite:.database.sqlite');
+        $db = new \DB\SQL('sqlite:db/database.sqlite');
         $db->begin();
         $sql = "DELETE FROM users WHERE users.user_id = '$utente'";
         $db->exec($sql);

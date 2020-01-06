@@ -14,7 +14,7 @@ class Auth
         // Reset persistenza
         $f3->set('COOKIE.sessionName', null);
 
-        echo \Template::instance()->render('templates/login.htm');
+        echo \Template::instance()->render('templates/login/login.htm');
     }
 
     public function Logout($f3, $args)
@@ -22,9 +22,8 @@ class Auth
         $session = new \Session();
         $csrf = $f3->get('COOKIE.sessionName');
 
-        $csrfArray = explode(".", $csrf);
-        $sessionUserid = "SESSION." . $csrfArray[0];
-        $sessionPassword = "SESSION." . $csrfArray[1];
+        $sessionUserid = "SESSION.UserID." . $csrf;
+        $sessionPassword = "SESSION.Password." . $csrf;
 
         $f3->set('COOKIE.sessionName', null);
         $f3->set($sessionUserid, null);
@@ -40,25 +39,29 @@ class Auth
         $csrf = $f3->get('COOKIE.sessionName');
 
         if (isset($csrf)) {
-            $csrfArray = explode(".", $csrf);
-            $sessionUserid = "SESSION." . $csrfArray[0];
-            $sessionPassword = "SESSION." . $csrfArray[1];
+            $sessionUserid = "SESSION.UserID." . $csrf;
+            $sessionPassword = "SESSION.Password." . $csrf;
+          
+            if ( ($f3->get($sessionUserid)!==null) && ($f3->get($sessionPassword)!==null) ) {
 
-            $utente = trim($f3->get($sessionUserid));
-            $password = trim($f3->get($sessionPassword));
-
-            if (isset($utente) && isset($password)) {
-                $db = new \DB\SQL('sqlite:.database.sqlite');
+                $utente = trim($f3->get($sessionUserid));
+                $password = trim($f3->get($sessionPassword));
+                
+                $db = new \DB\SQL('sqlite:db/database.sqlite');
                 $users = new \DB\SQL\Mapper($db, 'users');
                 $auth = new \Auth($users, array('id' => 'user_id', 'pw' => 'password'));
-                $login_result = $auth->login($utente, $password);
+
+                $hash = hash('sha512', $password, false);
+                $login_result = $auth->login($utente, $hash);
 
                 return $login_result;
             } else {
+                \App\Flash::instance()->addMessage('Errore di autenticazione', 'danger');
                 return false;
             }
         }
-        echo "false";
+        
+        \App\Flash::instance()->addMessage('Richieste multiple non valide', 'danger');
         return false;
     }
 
@@ -75,24 +78,27 @@ class Auth
             $token = $f3->get('POST.token');
             $csrf = $f3->get('SESSION.csrf');
 
+            $utente = str_replace('"', "", $utente);
+            $utente = str_replace("'", "", $utente);
+
             // Resetta il csrf per evitare il doppio invio
             $f3->set('SESSION.csrf', $session->csrf());
 
             // CONTROLLA SE NON SONO SOTTO ATTACCO CSRF
             if ($token === $csrf) {
 
-                $db = new \DB\SQL('sqlite:.database.sqlite');
+                $db = new \DB\SQL('sqlite:db/database.sqlite');
                 $users = new \DB\SQL\Mapper($db, 'users');
                 $auth = new \Auth($users, array('id' => 'user_id', 'pw' => 'password'));
-                $login_result = $auth->login($utente, $password);
+
+                $hash = hash('sha512', $password, false);
+                $login_result = $auth->login($utente, $hash);
 
                 if ($login_result) {
 
                     $f3->set('COOKIE.sessionName', $csrf);
-
-                    $csrfArray = explode(".", $csrf);
-                    $sessionUserid = "SESSION." . $csrfArray[0];
-                    $sessionPassword = "SESSION." . $csrfArray[1];
+                    $sessionUserid = "SESSION.UserID." . $csrf;
+                    $sessionPassword = "SESSION.Password." . $csrf;
 
                     $f3->set($sessionUserid, $utente);
                     $f3->set($sessionPassword, $password);
@@ -103,8 +109,8 @@ class Auth
                     $f3->reroute('/login');
                 }
             } else {
-                echo 'CSRF attack!<br>';
-                die();
+                \App\Flash::instance()->addMessage('Richieste multiple non valide', 'danger');
+                $f3->reroute('/login');
             }
         }
     }
