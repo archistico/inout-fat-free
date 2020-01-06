@@ -1,1 +1,4 @@
 Require local
+Options All -Indexes
+Order Deny,Allow
+Deny from All

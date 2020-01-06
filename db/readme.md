@@ -1,4 +1,7 @@
 # Add
 
 .htaccess  
-Request local
+Request local  
+Options All -Indexes  
+Order Deny,Allow  
+Deny from All  

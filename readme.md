@@ -34,5 +34,8 @@ RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization},L]
 #### Nella sottocartella DB .htaccess
   
 Require local  
+Options All -Indexes  
+Order Deny,Allow  
+Deny from All  
   
 ### SQL
