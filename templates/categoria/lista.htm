@@ -1,0 +1,88 @@
+<div class="row">
+    <div class="col-md-12">
+        <a href="{{@BASE}}{{ 'categorianuovo1' | alias }}" class="btn btn-primary btn-block btn-lg">NUOVA CATEGORIA</a><br>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+            <tr class="d-flex">
+                <th scope="col" class="col-11">Categorie - I livello</th>
+                <th scope="col" class="col-1">#</th>
+            </tr>
+            </thead>
+            <tbody>
+            <repeat group="{{ @categoria1 }}" value="{{ @item }}">
+                <tr class="d-flex">
+                    <td class="col-11">{{ @item.descrizione }}</td>
+                    <th scope="row" class="col-1"><a href="categoria/cancella1/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
+                </tr>
+            </repeat>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+            <tr class="d-flex">
+                <th scope="col" class="col-11">Categorie - II livello</th>
+                <th scope="col" class="col-1">#</th>
+            </tr>
+            </thead>
+            <tbody>
+            <repeat group="{{ @categoria2 }}" value="{{ @item }}">
+                <tr class="d-flex">
+                    <td class="col-11">{{ @item.cat1 }} / {{ @item.cat2 }}</td>
+                    <th scope="row" class="col-1"><a href="categoria/cancella2/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
+                </tr>
+            </repeat>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+            <tr class="d-flex">
+                <th scope="col" class="col-11">Categorie - III livello</th>
+                <th scope="col" class="col-1">#</th>
+            </tr>
+            </thead>
+            <tbody>
+            <repeat group="{{ @categoria3 }}" value="{{ @item }}">
+                <tr class="d-flex">
+                    <td class="col-11">{{ @item.cat1 }} / {{ @item.cat2 }} / {{ @item.cat3 }}</td>
+                    <th scope="row" class="col-1"><a href="categoria/cancella3/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
+                </tr>
+            </repeat>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <thead>
+            <tr class="d-flex">
+                <th scope="col" class="col-11">Categorie - IV livello</th>
+                <th scope="col" class="col-1">#</th>
+            </tr>
+            </thead>
+            <tbody>
+            <repeat group="{{ @categoria4 }}" value="{{ @item }}">
+                <tr class="d-flex">
+                    <td class="col-11">{{ @item.cat1 }} / {{ @item.cat2 }} / {{ @item.cat3 }} / {{ @item.cat4 }}</td>
+                    <th scope="row" class="col-1"><a href="categoria/cancella4/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
+                </tr>
+            </repeat>
+            </tbody>
+        </table>
+    </div>
+</div>

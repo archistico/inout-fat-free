@@ -21,6 +21,13 @@ $f3->route('POST @movimentoregistra: /movimento/registra', '\App\Movimento->Regi
 $f3->route('GET @movimentocancella: /movimento/cancella/@id', '\App\Movimento->Cancella');
 $f3->route('POST @movimentosopprimi: /movimento/sopprimi', '\App\Movimento->Sopprimi');
 
+// Categorie
+$f3->route('GET @categorialista: /categoria/lista', '\App\Categoria->Lista');
+$f3->route('GET @categorianuovo1: /categoria/1/nuovo', '\App\Categoria->Nuovo1');
+$f3->route('GET @categorianuovo2: /categoria/2/nuovo', '\App\Categoria->Nuovo2');
+$f3->route('GET @categorianuovo3: /categoria/3/nuovo', '\App\Categoria->Nuovo3');
+$f3->route('GET @categorianuovo4: /categoria/4/nuovo', '\App\Categoria->Nuovo4');
+
 // Autenticazione
 $f3->route('GET @login: /login', '\App\Auth->Login');
 $f3->route('POST @loginCheck: /loginCheck', '\App\Auth->LoginCheck');
