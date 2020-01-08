@@ -104,6 +104,9 @@ class Movimento
         }
         );
 
+        $f3->set('datatable', 'true');
+        $f3->set('script', 'movimentolista.js');
+
         $f3->set('titolo', 'Lista');
         $f3->set('contenuto', '/movimento/lista.htm');
         echo \Template::instance()->render('templates/base.htm');
