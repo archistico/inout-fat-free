@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-md-12">
+        <p>Nuova categoria di IV livello:</p>
+        <form method="POST" action="{{@BASE}}{{ 'categoriaregistra' | alias }}">
+            <div class="form-group">
+                <label for="InputData">Data</label>
+                <input type="date" class="form-control" id="InputData" placeholder="Data" name="data" required>
+            </div>
+            <div class="form-group">
+                <label for="InputNote">Note</label>
+                <input type="text" class="form-control" id="InputNote" placeholder="Note" name="note">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block btn-lg">Registra</button>
+        </form>
+    </div>
+</div>

@@ -27,6 +27,7 @@ $f3->route('GET @categorianuovo1: /categoria/1/nuovo', '\App\Categoria->Nuovo1')
 $f3->route('GET @categorianuovo2: /categoria/2/nuovo', '\App\Categoria->Nuovo2');
 $f3->route('GET @categorianuovo3: /categoria/3/nuovo', '\App\Categoria->Nuovo3');
 $f3->route('GET @categorianuovo4: /categoria/4/nuovo', '\App\Categoria->Nuovo4');
+$f3->route('POST @categoriaregistra: /categoria/registra', '\App\Categoria->Registra');
 
 // Autenticazione
 $f3->route('GET @login: /login', '\App\Auth->Login');
