@@ -22,7 +22,7 @@
             <repeat group="{{ @categoria1 }}" value="{{ @item }}">
                 <tr class="d-flex">
                     <td class="col-11">{{ @item.descrizione }}</td>
-                    <th scope="row" class="col-1"><a href="categoria/cancella1/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
+                    <th scope="row" class="col-1"><a href="{{@BASE}}/categoria/cancella1/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
                 </tr>
             </repeat>
             </tbody>
@@ -43,7 +43,7 @@
             <repeat group="{{ @categoria2 }}" value="{{ @item }}">
                 <tr class="d-flex">
                     <td class="col-11">{{ @item.cat1 }} / {{ @item.cat2 }}</td>
-                    <th scope="row" class="col-1"><a href="categoria/cancella2/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
+                    <th scope="row" class="col-1"><a href="{{@BASE}}/categoria/cancella2/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
                 </tr>
             </repeat>
             </tbody>
@@ -64,7 +64,7 @@
             <repeat group="{{ @categoria3 }}" value="{{ @item }}">
                 <tr class="d-flex">
                     <td class="col-11">{{ @item.cat1 }} / {{ @item.cat2 }} / {{ @item.cat3 }}</td>
-                    <th scope="row" class="col-1"><a href="categoria/cancella3/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
+                    <th scope="row" class="col-1"><a href="{{@BASE}}/categoria/cancella3/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
                 </tr>
             </repeat>
             </tbody>
@@ -85,7 +85,7 @@
             <repeat group="{{ @categoria4 }}" value="{{ @item }}">
                 <tr class="d-flex">
                     <td class="col-11">{{ @item.cat1 }} / {{ @item.cat2 }} / {{ @item.cat3 }} / {{ @item.cat4 }}</td>
-                    <th scope="row" class="col-1"><a href="categoria/cancella4/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
+                    <th scope="row" class="col-1"><a href="{{@BASE}}/categoria/cancella4/{{ @item.id }}" class="btn btn-danger btn-sm">X</a></th>
                 </tr>
             </repeat>
             </tbody>

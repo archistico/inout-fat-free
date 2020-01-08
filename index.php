@@ -28,6 +28,10 @@ $f3->route('GET @categorianuovo2: /categoria/2/nuovo', '\App\Categoria->Nuovo2')
 $f3->route('GET @categorianuovo3: /categoria/3/nuovo', '\App\Categoria->Nuovo3');
 $f3->route('GET @categorianuovo4: /categoria/4/nuovo', '\App\Categoria->Nuovo4');
 $f3->route('POST @categoriaregistra: /categoria/registra', '\App\Categoria->Registra');
+$f3->route('GET @categoriacancella1: /categoria/cancella1/@id', '\App\Categoria->Cancella1');
+$f3->route('GET @categoriacancella2: /categoria/cancella2/@id', '\App\Categoria->Cancella2');
+$f3->route('GET @categoriacancella3: /categoria/cancella3/@id', '\App\Categoria->Cancella3');
+$f3->route('GET @categoriacancella4: /categoria/cancella4/@id', '\App\Categoria->Cancella4');
 
 // Autenticazione
 $f3->route('GET @login: /login', '\App\Auth->Login');

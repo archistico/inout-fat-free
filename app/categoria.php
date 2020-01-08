@@ -98,7 +98,7 @@ class Categoria
         $f3->reroute('@categorialista');
     }
 
-    public function Cancella($f3, $params)
+    public function Cancella1($f3, $params)
     {
         /*
         $f3->set('titolo', 'Homepage');
@@ -106,7 +106,43 @@ class Categoria
         $f3->set('id', $params['id']);
         echo \Template::instance()->render('templates/base.htm');
         */
+        $f3->reroute('@categorialista');
     }
+
+    public function Cancella2($f3, $params)
+    {
+        /*
+        $f3->set('titolo', 'Homepage');
+        $f3->set('contenuto', 'movimento/cancella.htm');
+        $f3->set('id', $params['id']);
+        echo \Template::instance()->render('templates/base.htm');
+        */
+        $f3->reroute('@categorialista');
+    }
+
+    public function Cancella3($f3, $params)
+    {
+        /*
+        $f3->set('titolo', 'Homepage');
+        $f3->set('contenuto', 'movimento/cancella.htm');
+        $f3->set('id', $params['id']);
+        echo \Template::instance()->render('templates/base.htm');
+        */
+        $f3->reroute('@categorialista');
+    }
+
+    public function Cancella4($f3, $params)
+    {
+        /*
+        $f3->set('titolo', 'Homepage');
+        $f3->set('contenuto', 'movimento/cancella.htm');
+        $f3->set('id', $params['id']);
+        echo \Template::instance()->render('templates/base.htm');
+        */
+        $f3->reroute('@categorialista');
+    }
+
+
 
     public function Sopprimi($f3, $params)
     {
