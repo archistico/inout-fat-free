@@ -6,6 +6,23 @@ body {
   padding-top: 3.5rem;
 }
 
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+  color: white !important;
+  border: 1px solid #FFFFFF!important;
+  background-color: #FFFFFF!important;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #FFFFFF), color-stop(100%, #FFFFFF))!important;
+  background: -webkit-linear-gradient(top, #FFFFFF 0%, #FFFFFF 100%)!important;
+  background: -moz-linear-gradient(top, #FFFFFF 0%, #FFFFFF 100%)!important;
+  background: -ms-linear-gradient(top, #FFFFFF 0%, #FFFFFF 100%)!important;
+  background: -o-linear-gradient(top, #FFFFFF 0%, #FFFFFF 100%)!important;
+  background: none;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:active {
+  background: none;
+  color: black!important;
+}
+
 .jumbotron {
   padding-top: 1em;
   padding-bottom: 1em;
