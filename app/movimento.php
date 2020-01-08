@@ -15,7 +15,7 @@ class Movimento
     
     public function Homepage($f3)
     {
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
 
         $sql = 'SELECT SUM(importo) AS somma';
         $sql .= ' FROM movimenti';
@@ -66,7 +66,7 @@ class Movimento
 
     public function Lista($f3)
     {
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
         $sql = "SELECT movimenti.id, movimenti.giorno, movimenti.importo, movimenti.note,";
         $sql .= " categoria1.descrizione AS des1,";
         $sql .= " categoria2.descrizione AS des2,";
@@ -111,7 +111,7 @@ class Movimento
 
     public function Nuovo($f3)
     {
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
         $f3->set('categoria1', $db->exec('SELECT * FROM categoria1 ORDER BY categoria1.descrizione ASC'));
 
         $f3->set('titolo', 'Nuovo');
@@ -123,7 +123,7 @@ class Movimento
     {
         $cat1 = $params['num'];
 
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
 
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -143,7 +143,7 @@ class Movimento
         $cat1 = $params['cat1'];
         $cat2 = $params['cat2'];
 
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
 
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -172,7 +172,7 @@ class Movimento
         $cat2 = $params['cat2'];
         $cat3 = $params['cat3'];
 
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
 
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -209,7 +209,7 @@ class Movimento
         $cat3 = $params['cat3'];
         $cat4 = $params['cat4'];
 
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
         
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -251,39 +251,27 @@ class Movimento
             $importo = -$importo;
         }
 
-        $categoria = "";
+        $db = Database::getInstance();
 
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
-
-        /*
-        $rcat1 = $db->exec("SELECT * FROM categoria1 WHERE id = $cat1");
-        $categoria .= $rcat1[0]['descrizione'];
-        $rcat2 = $db->exec("SELECT * FROM categoria2 WHERE id = $cat2");
-        $categoria .= " / " . $rcat2[0]['descrizione'];
-        $rcat3 = $db->exec("SELECT * FROM categoria3 WHERE id = $cat3");
-        $categoria .= " / " . $rcat3[0]['descrizione'];
-        $rcat4 = $db->exec("SELECT * FROM categoria4 WHERE id = $cat4");
-        $categoria .= " / " . $rcat4[0]['descrizione'];
-
-        $f3->set('categoria', $categoria);
-        $f3->set('importo', $importo);
-        $f3->set('data', $data);
-        $f3->set('note', $note);
-        */
-
-        // 2018-09-13
         $data_array = explode("-", $data);
         $jd = juliantojd($data_array[1], $data_array[2], $data_array[0]);
-
         $importo = str_replace(',', '.', (string)$importo);
 
-        $note = str_replace('"', "", $note);
-        $note = str_replace("'", "", $note);
-
         $db->begin();
-        $sql = "INSERT into movimenti values(null, '$jd', '$importo', '$note', '$cat1', '$cat2', '$cat3', '$cat4')";
-        
-        $db->exec($sql);
+
+        $preparedStatement = $db->prepare('INSERT into movimenti values(null, :jd, :importo, :note, :cat1, :cat2, :cat3, :cat4)');
+        $preparedStatement->execute(
+            array(
+                ':jd' => $jd,
+                ':importo' => $importo,
+                ':note' => $note,
+                ':cat1' => $cat1,
+                ':cat2' => $cat2,
+                ':cat3' => $cat3,
+                ':cat4' => $cat4,
+            )
+        );
+
         $db->commit();
 
         $f3->reroute('/movimento/lista');
@@ -300,7 +288,7 @@ class Movimento
     public function Sopprimi($f3, $params)
     {
         $id = $f3->get('POST.id');
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
         $db->begin();
         $sql = "DELETE FROM movimenti WHERE movimenti.id = $id";
         $db->exec($sql);

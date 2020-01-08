@@ -15,7 +15,7 @@ class Categoria
 
     public function Lista($f3)
     {
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
 
         $sql = 'SELECT categoria1.id, categoria1.descrizione FROM categoria1 ORDER BY categoria1.descrizione ASC';
         $cat1 = $db->exec($sql);
@@ -45,7 +45,7 @@ class Categoria
 
     public function Nuovo1($f3)
     {
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
 
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -63,7 +63,7 @@ class Categoria
     {
         $cat1 = $params['num'];
 
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
 
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -83,7 +83,7 @@ class Categoria
         $cat1 = $params['cat1'];
         $cat2 = $params['cat2'];
 
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
 
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -112,7 +112,7 @@ class Categoria
         $cat2 = $params['cat2'];
         $cat3 = $params['cat3'];
 
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
 
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -149,7 +149,7 @@ class Categoria
         $cat3 = $params['cat3'];
         $cat4 = $params['cat4'];
 
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
 
         $sql = 'SELECT categoria1.descrizione AS categoria1 FROM categoria1 WHERE categoria1.id=' . $cat1;
         $risultato = $db->exec($sql);
@@ -193,7 +193,7 @@ class Categoria
 
         $categoria = "";
 
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
 
         /*
         $rcat1 = $db->exec("SELECT * FROM categoria1 WHERE id = $cat1");
@@ -240,7 +240,7 @@ class Categoria
     public function Sopprimi($f3, $params)
     {
         $id = $f3->get('POST.id');
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
         $db->begin();
         $sql = "DELETE FROM movimenti WHERE movimenti.id = $id";
         $db->exec($sql);

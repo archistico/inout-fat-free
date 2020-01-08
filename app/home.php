@@ -17,18 +17,16 @@ class Home
 
     public function Homepage($f3)
     {
-        $db = new \DB\SQL('sqlite:db/database.sqlite');
+        $db = Database::getInstance();
 
-        $sql = 'SELECT SUM(importo) AS somma';
-        $sql .= ' FROM movimenti';
-        $sql .= ' WHERE cat1 = 2';
-        $risultato = $db->exec($sql);
+        $preparedStatement = $db->prepare('SELECT SUM(importo) AS somma FROM movimenti WHERE cat1 = :cat');
+        $preparedStatement->execute(array(':cat' => 2));
+        $risultato = $preparedStatement->fetchAll();
         $totentrate = $risultato[0]['somma'];
 
-        $sql = 'SELECT SUM(importo) AS somma';
-        $sql .= ' FROM movimenti';
-        $sql .= ' WHERE cat1 = 1';
-        $risultato = $db->exec($sql);
+        $preparedStatement = $db->prepare('SELECT SUM(importo) AS somma FROM movimenti WHERE cat1 = :cat');
+        $preparedStatement->execute(array(':cat' => 1));
+        $risultato = $preparedStatement->fetchAll();
         $totuscite = $risultato[0]['somma'];
 
         $differenza = $totentrate + $totuscite;
